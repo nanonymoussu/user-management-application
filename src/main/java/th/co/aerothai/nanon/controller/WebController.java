@@ -36,9 +36,10 @@ public class WebController {
             @RequestParam(defaultValue = "5") int size) {
         Page<User> userPage = userService.findUsers(keyword, page, size, "id", "asc");
 
-        // Fetch data for the list view
+        // Fetch data for the list view with query pagination
         model.addAttribute("users", userPage.getContent());
         model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", size);
         model.addAttribute("totalPages", userPage.getTotalPages());
         model.addAttribute("totalItems", userPage.getTotalElements());
         model.addAttribute("keyword", keyword);
