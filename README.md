@@ -10,7 +10,7 @@ A robust, "_backend-heavy_" full-stack application built with `Spring Boot 3` an
 
   - **DTO Pattern**: Separation of internal Entity models from API Data Transfer Objects.
 
-  - **JPA Auditing**: Automatic tracking of createdAt and updatedAt timestamps.
+  - **JPA Auditing**: Automatic tracking of `createdAt` and `updatedAt` timestamps.
 
   - **Pagination & Sorting**: Efficient server-side data fetching using Spring Data JPA Pageable.
 
@@ -85,7 +85,7 @@ src
     docker-compose up -d
     ```
 
-    - DB URL: `jdbc:postgresql://localhost:5432/nanondb`
+    - DB URL: `jdbc:postgresql://localhost:5432/postgresdb`
 
     - User: `myuser`
 
