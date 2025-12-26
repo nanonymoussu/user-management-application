@@ -1,13 +1,14 @@
 package th.co.aerothai.nanon.controller;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import th.co.aerothai.nanon.model.User;
 import th.co.aerothai.nanon.service.UserService;
@@ -28,11 +29,19 @@ public class WebController {
      * @return The name of the template ("index").
      */
     @GetMapping("/")
-    public String index(Model model) {
-        // Fetch data for the list view
-        model.addAttribute("users", userService.findAllUsers());
+    public String index(
+            Model model,
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        Page<User> userPage = userService.findUsers(keyword, page, size, "id", "asc");
 
-        // Used for highlighting the correct NavBar item
+        // Fetch data for the list view
+        model.addAttribute("users", userPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", userPage.getTotalPages());
+        model.addAttribute("totalItems", userPage.getTotalElements());
+        model.addAttribute("keyword", keyword);
         model.addAttribute("activePage", "users");
 
         return "index"; // src/main/resources/templates/index.html
@@ -47,7 +56,8 @@ public class WebController {
      */
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
-        List<User> users = userService.findAllUsers();
+        // Dashboard stats still fetch all for accurate summary
+        var users = userService.findAllUsers();
 
         // Statistics 1: Total Users Count
         model.addAttribute("totalUsers", users.size());

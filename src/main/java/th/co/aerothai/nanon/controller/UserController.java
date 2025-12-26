@@ -1,11 +1,12 @@
 package th.co.aerothai.nanon.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+import th.co.aerothai.nanon.dto.UserDTO;
 import th.co.aerothai.nanon.model.User;
 import th.co.aerothai.nanon.service.UserService;
 
@@ -19,14 +20,22 @@ public class UserController {
     private UserService userService;
 
     /**
-     * GET /api/users
+     * GET /api/users?page=1&size=5&sort=name&keyword=nanon
      * - Retrieves the list of all users.
      *
+     * @param keyword - Username or Name to search for.
+     * @param page    - Page Number
+     * @param size    - Page Size
+     * @param sort    - Sort Direction (Ascending or Descending)
      * @return 200 OK with a list of User data.
      */
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.findAllUsers();
+    public Page<User> getUsers(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sort) {
+        return userService.findUsers(keyword, page, size, sort, "asc");
     }
 
     /**
@@ -51,8 +60,8 @@ public class UserController {
      * @return 200 OK with the created User data.
      */
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    public User createUser(@Valid @RequestBody UserDTO userDTO) {
+        return userService.createUser(userDTO);
     }
 
     /**
@@ -64,12 +73,8 @@ public class UserController {
      * @return 200 OK with updated User if found, 404 Not Found if not.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        User updatedUser = userService.updateUser(id, userDetails);
-        if (updatedUser != null) {
-            return ResponseEntity.ok(updatedUser);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO userDTO) {
+        return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
     /**

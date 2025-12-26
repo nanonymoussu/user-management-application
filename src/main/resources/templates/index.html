@@ -3,68 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Users Management App</title>
-
-    <!-- Tailwind CSS -->
+    <title>Nanon App | User Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Google Fonts: Prompt -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
-
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <style>
       body {
-        font-family: 'Prompt', sans-serif;
+        font-family: 'Inter', sans-serif;
       }
     </style>
   </head>
-
   <body class="bg-slate-50 text-slate-800 antialiased">
     <!-- Navbar -->
     <nav class="bg-indigo-600 shadow-lg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-          <!-- Brand Logo & Links -->
           <div class="flex items-center">
             <div class="flex-shrink-0 text-white">
               <i class="fa-solid fa-server text-2xl"></i>
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                <span class="text-white font-bold text-xl tracking-tight mr-4">User Management App</span>
-
-                <!-- Dashboard Link -->
+                <span class="text-white font-bold text-xl tracking-tight mr-4">Nanon App</span>
                 <a
                   href="/dashboard"
                   th:classappend="${activePage == 'dashboard'} ? 'bg-indigo-700 text-white' : 'text-indigo-100 hover:bg-indigo-500 hover:text-white'"
                   class="px-3 py-2 rounded-md text-sm font-medium transition"
+                  >Dashboard</a
                 >
-                  Dashboard
-                </a>
-
-                <!-- Users Link (Active) -->
                 <a
                   href="/"
                   th:classappend="${activePage == 'users'} ? 'bg-indigo-700 text-white' : 'text-indigo-100 hover:bg-indigo-500 hover:text-white'"
                   class="px-3 py-2 rounded-md text-sm font-medium transition"
+                  >Users</a
                 >
-                  Users
-                </a>
               </div>
             </div>
           </div>
-
-          <!-- User Profile -->
           <div class="flex items-center gap-4">
             <span class="text-indigo-100 text-sm">Hello, nanonymoussu</span>
             <div class="h-8 w-8 rounded-full bg-indigo-400 flex items-center justify-center text-white font-bold">
@@ -77,60 +56,69 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-      <!-- Page Header & Add Button -->
-      <div class="md:flex md:items-center md:justify-between mb-8">
-        <div class="flex-1 min-w-0">
+      <!-- Header & Search -->
+      <div class="md:flex md:items-center md:justify-between mb-8 gap-4">
+        <div class="flex-1">
           <h2 class="text-2xl font-bold leading-7 text-slate-900 sm:text-3xl sm:truncate">User Management</h2>
-          <p class="mt-1 text-sm text-slate-500">Manage system access and roles for your PostgreSQL database.</p>
+          <p class="mt-1 text-sm text-slate-500">Manage system access and roles.</p>
         </div>
-        <div class="mt-4 flex md:mt-0 md:ml-4">
+
+        <!-- Search Form -->
+        <form action="/" method="get" class="flex-1 max-w-lg flex gap-2">
+          <div class="relative flex-grow">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            </div>
+            <input
+              type="text"
+              name="keyword"
+              th:value="${keyword}"
+              placeholder="Search by Name or Email..."
+              class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
+            />
+          </div>
+          <button
+            type="submit"
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+          >
+            Search
+          </button>
+        </form>
+
+        <div class="mt-4 md:mt-0">
           <button
             onclick="openModal()"
             type="button"
-            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+            class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none transition-colors"
           >
             <i class="fa-solid fa-plus mr-2"></i> Add User
           </button>
         </div>
       </div>
 
-      <!-- Data Table Card -->
-      <div class="bg-white shadow-md rounded-lg overflow-hidden border border-slate-200">
+      <!-- Data Table -->
+      <div class="bg-white shadow-md rounded-lg overflow-hidden border border-slate-200 flex flex-col">
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-slate-200">
             <thead class="bg-slate-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  ID
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">ID</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                   User Info
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Role
-                </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider"
-                >
+                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Role</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Dates</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-slate-200">
-              <!-- Thymeleaf Loop -->
               <tr th:each="user : ${users}" class="hover:bg-slate-50 transition-colors">
-                <!-- ID Column -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">#<span th:text="${user.id}">1</span></td>
-
-                <!-- User Info Column -->
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="h-10 w-10 flex-shrink-0">
-                      <!-- Dynamic Avatar based on first letter of name -->
                       <div
                         class="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold uppercase shadow-sm"
                         th:text="${#strings.substring(user.name,0,1)}"
@@ -140,138 +128,160 @@
                     </div>
                     <div class="ml-4">
                       <div class="text-sm font-medium text-slate-900" th:text="${user.name}">Nanon</div>
-                      <div class="text-sm text-slate-500" th:text="${user.email}">nanon.si@aerothai.co.th</div>
+                      <div class="text-sm text-slate-500" th:text="${user.email}">nanon@example.com</div>
                     </div>
                   </div>
                 </td>
-
-                <!-- Role Column -->
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span
                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800"
                     th:text="${user.role}"
+                    >Admin</span
                   >
-                    Admin
-                  </span>
                 </td>
-
-                <!-- Status Column -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                  <span class="flex items-center gap-1.5">
-                    <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
-                    Active
-                  </span>
+                  <div class="flex flex-col">
+                    <span class="text-xs"
+                      >Created: <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></span
+                    ></span>
+                    <span class="text-xs text-gray-400"
+                      >Updated: <span th:text="${#temporals.format(user.updatedAt, 'yyyy-MM-dd HH:mm')}"></span
+                    ></span>
+                  </div>
                 </td>
-
-                <!-- Actions Column -->
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button
                     th:onclick="editUser([[${user.id}]], [[${user.name}]], [[${user.email}]], [[${user.role}]])"
-                    class="text-indigo-600 hover:text-indigo-900 mr-4 transition-colors"
+                    class="text-indigo-600 hover:text-indigo-900 mr-4"
                   >
-                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                    <i class="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button
-                    th:onclick="deleteUser([[${user.id}]])"
-                    class="text-red-600 hover:text-red-900 transition-colors"
-                  >
-                    <i class="fa-solid fa-trash"></i> Delete
+                  <button th:onclick="deleteUser([[${user.id}]])" class="text-red-600 hover:text-red-900">
+                    <i class="fa-solid fa-trash"></i>
                   </button>
                 </td>
               </tr>
-
-              <!-- Empty State -->
               <tr th:if="${#lists.isEmpty(users)}">
                 <td colspan="5" class="px-6 py-10 text-center text-slate-500">
                   <i class="fa-regular fa-folder-open text-4xl mb-3 text-slate-300"></i>
-                  <p>No users found in the database.</p>
+                  <p>No users found matching your search.</p>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <!-- Pagination Controls -->
+        <div
+          class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+          th:if="${totalPages > 0}"
+        >
+          <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+              <p class="text-sm text-gray-700">
+                Showing page <span class="font-medium" th:text="${currentPage}">1</span> of
+                <span class="font-medium" th:text="${totalPages}">10</span> (<span
+                  class="font-medium"
+                  th:text="${totalItems}"
+                  >97</span
+                >
+                total results)
+              </p>
+            </div>
+            <div>
+              <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <!-- Prev -->
+                <a
+                  th:if="${currentPage > 1}"
+                  th:href="@{'/?page=' + ${currentPage - 1} + '&keyword=' + ${keyword}}"
+                  class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <span class="sr-only">Previous</span>
+                  <i class="fa-solid fa-chevron-left h-5 w-5"></i>
+                </a>
+
+                <!-- Page Numbers (Simplified) -->
+                <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                  <a
+                    th:href="@{'/?page=' + ${i} + '&keyword=' + ${keyword}}"
+                    th:text="${i}"
+                    th:classappend="${currentPage == i} ? 'bg-indigo-50 border-indigo-500 text-indigo-600 z-10' : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'"
+                    class="relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                  >
+                  </a>
+                </span>
+
+                <!-- Next -->
+                <a
+                  th:if="${currentPage < totalPages}"
+                  th:href="@{'/?page=' + ${currentPage + 1} + '&keyword=' + ${keyword}}"
+                  class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <span class="sr-only">Next</span>
+                  <i class="fa-solid fa-chevron-right h-5 w-5"></i>
+                </a>
+              </nav>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
 
-    <!-- Pop-up Modal -->
-    <div
-      id="userModal"
-      class="fixed inset-0 z-50 hidden overflow-y-auto"
-      aria-labelledby="modal-title"
-      role="dialog"
-      aria-modal="true"
-    >
+    <!-- Modal (Same as before) -->
+    <div id="userModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
       <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div
-          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-          aria-hidden="true"
-          onclick="closeModal()"
-        ></div>
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75" onclick="closeModal()"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
         <div
           class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
         >
           <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-              <div
-                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10"
-              >
-                <i class="fa-solid fa-user text-indigo-600"></i>
-              </div>
-              <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                <h3 class="text-lg leading-6 font-medium text-slate-900" id="modal-title">User Information</h3>
-                <div class="mt-4">
-                  <form id="userForm">
-                    <input type="hidden" id="userId" />
-                    <div class="mb-4">
-                      <label for="name" class="block text-sm font-medium text-slate-700">Full Name</label>
-                      <input
-                        type="text"
-                        id="name"
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border p-2"
-                        placeholder="e.g. Nanon Singhasurasak"
-                        required
-                      />
-                    </div>
-                    <div class="mb-4">
-                      <label for="email" class="block text-sm font-medium text-slate-700">Email Address</label>
-                      <input
-                        type="email"
-                        id="email"
-                        class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md border p-2"
-                        placeholder="nanon@example.com"
-                        required
-                      />
-                    </div>
-                    <div class="mb-4">
-                      <label for="role" class="block text-sm font-medium text-slate-700">Role</label>
-                      <select
-                        id="role"
-                        class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      >
-                        <option value="Backend Developer">Backend Developer</option>
-                        <option value="Frontend Developer">Frontend Developer</option>
-                        <option value="DevOps Engineer">DevOps Engineer</option>
-                        <option value="Manager">Manager</option>
-                      </select>
-                    </div>
-                  </form>
+            <h3 class="text-lg leading-6 font-medium text-slate-900" id="modal-title">User Information</h3>
+            <div class="mt-4">
+              <form id="userForm">
+                <input type="hidden" id="userId" />
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-slate-700">Full Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                    required
+                  />
                 </div>
-              </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-slate-700">Email Address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+                    required
+                  />
+                </div>
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-slate-700">Role</label>
+                  <select id="role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="DevOps Engineer">DevOps Engineer</option>
+                    <option value="Manager">Manager</option>
+                  </select>
+                </div>
+              </form>
             </div>
           </div>
           <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <button
               type="button"
               onclick="saveUser()"
-              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
+              class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm"
             >
-              Save Changes
+              Save
             </button>
             <button
               type="button"
               onclick="closeModal()"
-              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-slate-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-slate-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
               Cancel
             </button>
@@ -280,8 +290,8 @@
       </div>
     </div>
 
-    <!-- Logic Script (Same as before) -->
     <script>
+      // ... (Logic mostly same as before, ensuring we reload to '/' to reset params if needed)
       const modal = document.getElementById('userModal')
       const form = document.getElementById('userForm')
       const modalTitle = document.getElementById('modal-title')
@@ -292,7 +302,6 @@
         modalTitle.innerText = 'Add New User'
         modal.classList.remove('hidden')
       }
-
       function closeModal() {
         modal.classList.add('hidden')
       }
@@ -313,12 +322,6 @@
           email: document.getElementById('email').value,
           role: document.getElementById('role').value,
         }
-
-        if (!user.name || !user.email) {
-          Swal.fire('Error', 'Please fill in all fields', 'warning')
-          return
-        }
-
         const method = id ? 'PUT' : 'POST'
         const url = id ? `/api/users/${id}` : '/api/users'
 
@@ -326,42 +329,32 @@
           method: method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(user),
-        })
-          .then((response) => {
-            if (response.ok) {
-              closeModal()
-              Swal.fire({
-                title: 'Success!',
-                text: 'User data has been saved.',
-                icon: 'success',
-                timer: 1500,
-                showConfirmButton: false,
-              }).then(() => window.location.reload())
-            } else {
-              Swal.fire('Error', 'Could not save user data.', 'error')
+        }).then(async (response) => {
+          if (response.ok) {
+            closeModal()
+            Swal.fire('Success', 'Saved!', 'success').then(() => window.location.reload())
+          } else {
+            // Handle new JSON Error Format
+            const errorData = await response.json()
+            let msg = 'Error saving user'
+            if (errorData.errors) {
+              msg = Object.values(errorData.errors).join(', ')
             }
-          })
-          .catch((err) => Swal.fire('Error', 'Network error occurred.', 'error'))
+            Swal.fire('Error', msg, 'error')
+          }
+        })
       }
 
       function deleteUser(id) {
         Swal.fire({
           title: 'Are you sure?',
-          text: "You won't be able to revert this!",
+          text: 'Cannot revert!',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: '#4f46e5',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!',
+          confirmButtonText: 'Yes, delete!',
         }).then((result) => {
           if (result.isConfirmed) {
-            fetch(`/api/users/${id}`, { method: 'DELETE' }).then((response) => {
-              if (response.ok) {
-                Swal.fire('Deleted!', 'User has been removed.', 'success').then(() => window.location.reload())
-              } else {
-                Swal.fire('Error', 'Could not delete user.', 'error')
-              }
-            })
+            fetch(`/api/users/${id}`, { method: 'DELETE' }).then(() => window.location.reload())
           }
         })
       }
