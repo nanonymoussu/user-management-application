@@ -82,7 +82,7 @@ src
     Use **Docker Compose** to spin up the **PostgreSQL** container. This ensures you have a clean, isolated database environment.
 
     ```bash
-    docker-compose up -d
+    docker-compose up -d --build
     ```
 
     - DB URL: `jdbc:postgresql://localhost:5432/postgresdb`
