@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nanon App | User Management</title>
+    <title>ระบบจัดการผู้ใช้งาน</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Prompt', sans-serif;
       }
     </style>
   </head>
@@ -28,26 +28,28 @@
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                <span class="text-white font-bold text-xl tracking-tight mr-4">Nanon App</span>
+                <span class="text-white font-bold text-xl tracking-tight mr-4">ระบบจัดการผู้ใช้งาน</span>
                 <a
                   href="/dashboard"
                   th:classappend="${activePage == 'dashboard'} ? 'bg-indigo-700 text-white' : 'text-indigo-100 hover:bg-indigo-500 hover:text-white'"
                   class="px-3 py-2 rounded-md text-sm font-medium transition"
-                  >Dashboard</a
                 >
+                  แดชบอร์ด
+                </a>
                 <a
                   href="/"
                   th:classappend="${activePage == 'users'} ? 'bg-indigo-700 text-white' : 'text-indigo-100 hover:bg-indigo-500 hover:text-white'"
                   class="px-3 py-2 rounded-md text-sm font-medium transition"
-                  >Users</a
                 >
+                  ผู้ใช้งาน
+                </a>
               </div>
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <span class="text-indigo-100 text-sm">Hello, nanonymoussu</span>
+            <span class="text-indigo-100 text-sm">สวัสดีคุณ ณนนท์</span>
             <div class="h-8 w-8 rounded-full bg-indigo-400 flex items-center justify-center text-white font-bold">
-              N
+              ณ
             </div>
           </div>
         </div>
@@ -59,8 +61,8 @@
       <!-- Header & Search -->
       <div class="md:flex md:items-center md:justify-between mb-8 gap-4">
         <div class="flex-1">
-          <h2 class="text-2xl font-bold leading-7 text-slate-900 sm:text-3xl sm:truncate">User Management</h2>
-          <p class="mt-1 text-sm text-slate-500">Manage system access and roles.</p>
+          <h2 class="text-2xl font-bold leading-7 text-slate-900 sm:text-3xl sm:truncate">จัดการผู้ใช้งาน</h2>
+          <p class="mt-1 text-sm text-slate-500">จัดการการเข้าถึงข้อมูลผู้ใช้งานและตำแหน่งหน้าที่</p>
         </div>
 
         <!-- Search Form -->
@@ -76,7 +78,7 @@
               type="text"
               name="keyword"
               th:value="${keyword}"
-              placeholder="Search by Name or Email..."
+              placeholder="ค้นหาด้วยชื่อหรืออีเมลล์..."
               class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
             />
           </div>
@@ -84,7 +86,7 @@
             type="submit"
             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
           >
-            Search
+            ค้นหา
           </button>
         </form>
 
@@ -94,7 +96,7 @@
             type="button"
             class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none transition-colors"
           >
-            <i class="fa-solid fa-plus mr-2"></i> Add User
+            <i class="fa-solid fa-plus mr-2"></i> เพิ่ม
           </button>
         </div>
       </div>
@@ -107,13 +109,11 @@
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  User Info
+                  ข้อมูลผู้ใช้งาน
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Role</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Dates</th>
-                <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider">
-                  Actions
-                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">บทบาท</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">วันที่</th>
+                <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase tracking-wider"></th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-slate-200">
@@ -126,12 +126,12 @@
                         class="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold uppercase shadow-sm"
                         th:text="${#strings.substring(user.name,0,1)}"
                       >
-                        N
+                        ณ
                       </div>
                     </div>
                     <div class="ml-4">
-                      <div class="text-sm font-medium text-slate-900" th:text="${user.name}">Nanon</div>
-                      <div class="text-sm text-slate-500" th:text="${user.email}">nanon@example.com</div>
+                      <div class="text-sm font-medium text-slate-900" th:text="${user.name}">ณนนท์</div>
+                      <div class="text-sm text-slate-500" th:text="${user.email}">nanon.si@aerothai.co.th</div>
                     </div>
                   </div>
                 </td>
@@ -139,16 +139,16 @@
                   <span
                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800"
                     th:text="${user.role}"
-                    >Admin</span
+                    >แอดมิน</span
                   >
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
                   <div class="flex flex-col">
                     <span class="text-xs"
-                      >Created: <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></span
+                      >สร้างเมื่อ: <span th:text="${#temporals.format(user.createdAt, 'yyyy-MM-dd HH:mm')}"></span
                     ></span>
                     <span class="text-xs text-gray-400"
-                      >Updated: <span th:text="${#temporals.format(user.updatedAt, 'yyyy-MM-dd HH:mm')}"></span
+                      >เปลี่ยนแปลงเมื่อ: <span th:text="${#temporals.format(user.updatedAt, 'yyyy-MM-dd HH:mm')}"></span
                     ></span>
                   </div>
                 </td>
@@ -167,7 +167,7 @@
               <tr th:if="${#lists.isEmpty(users)}">
                 <td colspan="5" class="px-6 py-10 text-center text-slate-500">
                   <i class="fa-regular fa-folder-open text-4xl mb-3 text-slate-300"></i>
-                  <p>No users found matching your search.</p>
+                  <p>ไม่พบผู้ใช้งานที่ตรงกับค้นหาของคุณ</p>
                 </td>
               </tr>
             </tbody>
@@ -179,46 +179,44 @@
           class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
           th:if="${totalPages > 0}"
         >
-          <!-- NEW: Rows per page Selector -->
           <div class="flex items-center">
-            <label for="pageSize" class="mr-2 text-sm text-gray-700">Rows per page:</label>
+            <label for="pageSize" class="mr-2 text-sm text-gray-700">แถวต่อหน้า:</label>
             <select
               id="pageSize"
               onchange="changePageSize(this.value)"
               class="border-gray-300 rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 p-1 border"
             >
-              <option value="5" th:selected="${pageSize == 5}">5</option>
               <option value="10" th:selected="${pageSize == 10}">10</option>
-              <option value="20" th:selected="${pageSize == 20}">20</option>
               <option value="50" th:selected="${pageSize == 50}">50</option>
+              <option value="100" th:selected="${pageSize == 100}">100</option>
+              <option value="500" th:selected="${pageSize == 500}">500</option>
             </select>
           </div>
 
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-end">
             <div class="mr-4">
               <p class="text-sm text-gray-700">
-                Page <span class="font-medium" th:text="${currentPage}">1</span> of
+                หน้า <span class="font-medium" th:text="${currentPage}">1</span> จาก
                 <span class="font-medium" th:text="${totalPages}">10</span> (<span
                   class="font-medium"
                   th:text="${totalItems}"
                   >97</span
                 >
-                total)
+                ทั้งหมด)
               </p>
             </div>
             <div>
               <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <!-- Prev (Added &size param) -->
                 <a
                   th:if="${currentPage > 1}"
                   th:href="@{'/?page=' + ${currentPage - 1} + '&keyword=' + ${keyword} + '&size=' + ${pageSize}}"
                   class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <span class="sr-only">Previous</span>
-                  <i class="fa-solid fa-chevron-left h-5 w-5"></i>
+                  <span class="sr-only">ก่อนหน้า</span>
+                  <i class="fa-solid fa-chevron-left h-4 w-4 ml-2"></i>
                 </a>
 
-                <!-- Page Numbers (Added &size param) -->
+                <!-- Page Numbers -->
                 <span th:each="i : ${#numbers.sequence(1, totalPages)}">
                   <a
                     th:href="@{'/?page=' + ${i} + '&keyword=' + ${keyword} + '&size=' + ${pageSize}}"
@@ -229,14 +227,13 @@
                   </a>
                 </span>
 
-                <!-- Next (Added &size param) -->
                 <a
                   th:if="${currentPage < totalPages}"
                   th:href="@{'/?page=' + ${currentPage + 1} + '&keyword=' + ${keyword} + '&size=' + ${pageSize}}"
                   class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  <span class="sr-only">Next</span>
-                  <i class="fa-solid fa-chevron-right h-5 w-5"></i>
+                  <span class="sr-only">ต่อไป</span>
+                  <i class="fa-solid fa-chevron-right h-4 w-4 ml-2"></i>
                 </a>
               </nav>
             </div>
@@ -254,12 +251,12 @@
           class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
         >
           <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <h3 class="text-lg leading-6 font-medium text-slate-900" id="modal-title">User Information</h3>
+            <h3 class="text-lg leading-6 font-medium text-slate-900" id="modal-title">ข้อมูลผู้ใช้งาน</h3>
             <div class="mt-4">
               <form id="userForm">
                 <input type="hidden" id="userId" />
                 <div class="mb-4">
-                  <label class="block text-sm font-medium text-slate-700">Full Name</label>
+                  <label class="block text-sm font-medium text-slate-700">ชื่อ - นามสกุล</label>
                   <input
                     type="text"
                     id="name"
@@ -268,7 +265,7 @@
                   />
                 </div>
                 <div class="mb-4">
-                  <label class="block text-sm font-medium text-slate-700">Email Address</label>
+                  <label class="block text-sm font-medium text-slate-700">อีเมลล์</label>
                   <input
                     type="email"
                     id="email"
@@ -277,12 +274,12 @@
                   />
                 </div>
                 <div class="mb-4">
-                  <label class="block text-sm font-medium text-slate-700">Role</label>
+                  <label class="block text-sm font-medium text-slate-700">ตำแหน่ง</label>
                   <select id="role" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
                     <option value="Backend Developer">Backend Developer</option>
                     <option value="Frontend Developer">Frontend Developer</option>
                     <option value="DevOps Engineer">DevOps Engineer</option>
-                    <option value="Manager">Manager</option>
+                    <option value="Manager">Project Manager</option>
                   </select>
                 </div>
               </form>
@@ -294,14 +291,14 @@
               onclick="saveUser()"
               class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm"
             >
-              Save
+              บันทึก
             </button>
             <button
               type="button"
               onclick="closeModal()"
               class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-slate-700 hover:bg-gray-50 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             >
-              Cancel
+              ยกเลิก
             </button>
           </div>
         </div>
@@ -309,11 +306,10 @@
     </div>
 
     <script th:inline="javascript">
-      /* NEW: Function to handle page size change */
       function changePageSize(size) {
         const urlParams = new URLSearchParams(window.location.search)
         urlParams.set('size', size)
-        urlParams.set('page', 1) // Reset to page 1 on size change to avoid empty pages
+        urlParams.set('page', 1)
         window.location.search = urlParams.toString()
       }
 
@@ -324,7 +320,7 @@
       function openModal() {
         document.getElementById('userId').value = ''
         form.reset()
-        modalTitle.innerText = 'Add New User'
+        modalTitle.innerText = 'เพิ่มผู้ใช้งานใหม่'
         modal.classList.remove('hidden')
       }
       function closeModal() {
@@ -336,7 +332,7 @@
         document.getElementById('name').value = name
         document.getElementById('email').value = email
         document.getElementById('role').value = role
-        modalTitle.innerText = 'Edit User'
+        modalTitle.innerText = 'แก้ไขผู้ใช้งาน'
         modal.classList.remove('hidden')
       }
 
@@ -357,25 +353,25 @@
         }).then(async (response) => {
           if (response.ok) {
             closeModal()
-            Swal.fire('Success', 'Saved!', 'success').then(() => window.location.reload())
+            Swal.fire('สำเร็จ!', 'บักทึกข้อมูลเรียบร้อยแล้ว', 'success').then(() => window.location.reload())
           } else {
             const errorData = await response.json()
-            let msg = 'Error saving user'
+            let message = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล'
             if (errorData.errors) {
-              msg = Object.values(errorData.errors).join(', ')
+              message = Object.values(errorData.errors).join(', ')
             }
-            Swal.fire('Error', msg, 'error')
+            Swal.fire('ขออภัย!', message, 'error')
           }
         })
       }
 
       function deleteUser(id) {
         Swal.fire({
-          title: 'Are you sure?',
-          text: 'Cannot revert!',
+          title: 'คุณแน่ใจหรือไม่?',
+          text: 'การกระทำนี้ไม่สามารถย้อนกลับได้',
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Yes, delete!',
+          confirmButtonText: 'ยืนยัน',
         }).then((result) => {
           if (result.isConfirmed) {
             fetch(`/api/users/${id}`, { method: 'DELETE' }).then(() => window.location.reload())

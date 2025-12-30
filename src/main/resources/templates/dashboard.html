@@ -3,29 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nanon App | Dashboard</title>
+    <title>ระบบจัดการผู้ใช้งาน</title>
 
-    <!-- External Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    <!-- Chart.js: Required for rendering charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Prompt', sans-serif;
       }
     </style>
   </head>
   <body class="bg-slate-50 text-slate-800 antialiased">
-    <!-- ============================================ -->
-    <!-- Navigation Bar (Shared Component)            -->
-    <!-- ============================================ -->
+    <!-- Navigation Bar -->
     <nav class="bg-indigo-600 shadow-lg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
@@ -35,15 +30,15 @@
             </div>
             <div class="hidden md:block">
               <div class="ml-10 flex items-baseline space-x-4">
-                <span class="text-white font-bold text-xl tracking-tight mr-4">Nanon App</span>
+                <span class="text-white font-bold text-xl tracking-tight mr-4">ระบบจัดการผู้ใช้งาน</span>
 
-                <!-- Dashboard Link (Active) -->
+                <!-- Dashboard Link -->
                 <a
                   href="/dashboard"
                   th:classappend="${activePage == 'dashboard'} ? 'bg-indigo-700 text-white' : 'text-indigo-100 hover:bg-indigo-500 hover:text-white'"
                   class="px-3 py-2 rounded-md text-sm font-medium transition"
                 >
-                  Dashboard
+                  แดชบอร์ด
                 </a>
 
                 <!-- Users Link -->
@@ -52,33 +47,29 @@
                   th:classappend="${activePage == 'users'} ? 'bg-indigo-700 text-white' : 'text-indigo-100 hover:bg-indigo-500 hover:text-white'"
                   class="px-3 py-2 rounded-md text-sm font-medium transition"
                 >
-                  Users
+                  ผู้ใช้งาน
                 </a>
               </div>
             </div>
           </div>
           <div class="flex items-center gap-4">
-            <span class="text-indigo-100 text-sm">Hello, nanonymoussu</span>
+            <span class="text-indigo-100 text-sm">สวัสดีคุณ ณนนท์</span>
             <div class="h-8 w-8 rounded-full bg-indigo-400 flex items-center justify-center text-white font-bold">
-              N
+              ณ
             </div>
           </div>
         </div>
       </div>
     </nav>
 
-    <!-- ============================================ -->
-    <!-- Main Dashboard Content                       -->
-    <!-- ============================================ -->
+    <!-- Dashboard Content -->
     <main class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
       <div class="mb-8">
-        <h2 class="text-3xl font-bold leading-7 text-slate-900">Dashboard Overview</h2>
-        <p class="mt-1 text-sm text-slate-500">System metrics and user statistics.</p>
+        <h2 class="text-3xl font-bold leading-7 text-slate-900">แดชบอร์ดภาพรวม</h2>
+        <p class="mt-1 text-sm text-slate-500">ตัวชี้วัดระบบและสถิติผู้ใช้งาน</p>
       </div>
 
-      <!-- ======================================== -->
-      <!-- Statistics Grid (Key Metrics)            -->
-      <!-- ======================================== -->
+      <!-- Statistics Grid -->
       <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
         <!-- Card 1: Total Users Count -->
         <div class="bg-white overflow-hidden shadow rounded-lg border border-slate-200">
@@ -89,7 +80,7 @@
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
-                  <dt class="text-sm font-medium text-slate-500 truncate">Total Users</dt>
+                  <dt class="text-sm font-medium text-slate-500 truncate">จำนวนผู้ใช้งานทั้งหมด</dt>
                   <dd>
                     <div class="text-3xl font-bold text-slate-900" th:text="${totalUsers}">0</div>
                   </dd>
@@ -99,12 +90,12 @@
           </div>
           <div class="bg-slate-50 px-5 py-3">
             <div class="text-sm">
-              <a href="/" class="font-medium text-indigo-600 hover:text-indigo-900">View all users</a>
+              <a href="/" class="font-medium text-indigo-600 hover:text-indigo-900">ดูผู้ใช้งานทั้งหมด</a>
             </div>
           </div>
         </div>
 
-        <!-- Card 2: Database Status (Static for Demo) -->
+        <!-- Card 2: Database Status -->
         <div class="bg-white overflow-hidden shadow rounded-lg border border-slate-200">
           <div class="p-5">
             <div class="flex items-center">
@@ -113,17 +104,17 @@
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
-                  <dt class="text-sm font-medium text-slate-500 truncate">Database Status</dt>
+                  <dt class="text-sm font-medium text-slate-500 truncate">สถานะระบบ</dt>
                   <dd>
-                    <div class="text-lg font-bold text-slate-900">Connected</div>
-                    <span class="text-xs text-green-600 font-semibold">PostgreSQL Active</span>
+                    <div class="text-lg font-bold text-slate-900">เชื่อมต่ออยู่</div>
+                    <span class="text-xs text-green-600 font-semibold">PostgreSQL ทำงาน</span>
                   </dd>
                 </dl>
               </div>
             </div>
           </div>
           <div class="bg-slate-50 px-5 py-3">
-            <div class="text-sm text-slate-500">Running on Docker</div>
+            <div class="text-sm text-slate-500">ทำงานบนระบบ Docker</div>
           </div>
         </div>
 
@@ -136,7 +127,7 @@
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
-                  <dt class="text-sm font-medium text-slate-500 truncate">Active Roles</dt>
+                  <dt class="text-sm font-medium text-slate-500 truncate">จำนวนตำแหน่งผู้ใช้งาน</dt>
                   <dd>
                     <div class="text-3xl font-bold text-slate-900" th:text="${roleStats.size()}">0</div>
                   </dd>
@@ -145,18 +136,16 @@
             </div>
           </div>
           <div class="bg-slate-50 px-5 py-3">
-            <div class="text-sm text-slate-500">Unique role types defined</div>
+            <div class="text-sm text-slate-500">ประเภทบทบาทเฉพาะที่กำหนด</div>
           </div>
         </div>
       </div>
 
-      <!-- ======================================== -->
-      <!-- Visualization & Actions                  -->
-      <!-- ======================================== -->
+      <!-- Visualization & Actions -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <!-- Chart Container -->
         <div class="bg-white shadow rounded-lg p-6 border border-slate-200">
-          <h3 class="text-lg leading-6 font-medium text-slate-900 mb-4">User Roles Distribution</h3>
+          <h3 class="text-lg leading-6 font-medium text-slate-900 mb-4">การกระจายตำแหน่งผู้ใช้งาน</h3>
           <div class="relative h-64 w-full flex justify-center">
             <canvas id="roleChart"></canvas>
           </div>
@@ -164,30 +153,28 @@
 
         <!-- Quick Actions Panel -->
         <div class="bg-white shadow rounded-lg p-6 border border-slate-200">
-          <h3 class="text-lg leading-6 font-medium text-slate-900 mb-4">Quick Actions</h3>
+          <h3 class="text-lg leading-6 font-medium text-slate-900 mb-4">ทางลัดคำสั่ง</h3>
           <div class="space-y-4">
-            <p class="text-slate-500 text-sm">Manage your application data quickly using the shortcuts below.</p>
+            <p class="text-slate-500 text-sm">จัดการข้อมูลแอปพลิเคชันของคุณได้อย่างรวดเร็วโดยใช้ทางลัดด้านล่างนี้</p>
 
             <a
               href="/"
               class="block w-full text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
             >
-              <i class="fa-solid fa-user-plus mr-2"></i> Go to User Management
+              <i class="fa-solid fa-user-plus mr-2"></i> จัดการผู้ใช้งาน
             </a>
 
             <button
               class="block w-full text-center px-4 py-2 border border-slate-300 rounded-md shadow-sm text-sm font-medium text-slate-700 bg-white hover:bg-slate-50"
             >
-              <i class="fa-solid fa-file-export mr-2"></i> Export Report (Coming Soon)
+              <i class="fa-solid fa-file-export mr-2"></i> ส่งออกข้อมูล (เร็ว ๆ นี้...)
             </button>
           </div>
         </div>
       </div>
     </main>
 
-    <!-- ============================================ -->
-    <!-- Chart.js Initialization                      -->
-    <!-- ============================================ -->
+    <!-- Chart.js Initialization -->
     <script th:inline="javascript">
       /*<![CDATA[*/
       // Extract data passed from Spring Boot (Map<String, Long>)
@@ -198,14 +185,14 @@
       const dataValues = Object.values(roleStats)
 
       // Initialize the Doughnut Chart
-      const ctx = document.getElementById('roleChart').getContext('2d')
-      new Chart(ctx, {
+      const context = document.getElementById('roleChart').getContext('2d')
+      new Chart(context, {
         type: 'doughnut',
         data: {
           labels: labels,
           datasets: [
             {
-              label: 'Users',
+              label: 'ทั้งหมด',
               data: dataValues,
               backgroundColor: [
                 '#4f46e5', // Indigo
